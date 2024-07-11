@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mlchain/dify-sandbox/internal/core/runner/types"
-	"github.com/mlchain/dify-sandbox/internal/service"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner/types"
+	"github.com/mlchain/mlchain-sandbox/internal/service"
 )
 
 func TestNodejsBase64(t *testing.T) {

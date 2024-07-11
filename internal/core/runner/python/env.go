@@ -6,16 +6,16 @@ import (
 	"os/exec"
 	"path"
 
-	"github.com/mlchain/dify-sandbox/internal/core/runner"
-	"github.com/mlchain/dify-sandbox/internal/static"
-	"github.com/mlchain/dify-sandbox/internal/utils/log"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner"
+	"github.com/mlchain/mlchain-sandbox/internal/static"
+	"github.com/mlchain/mlchain-sandbox/internal/utils/log"
 )
 
 //go:embed env.sh
 var env_script string
 
 func PreparePythonDependenciesEnv() error {
-	config := static.GetDifySandboxGlobalConfigurations()
+	config := static.GetMlchainSandboxGlobalConfigurations()
 
 	runner := runner.TempDirRunner{}
 	err := runner.WithTempDir("/", []string{}, func(root_path string) error {

@@ -2,8 +2,8 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/mlchain/dify-sandbox/internal/middleware"
-	"github.com/mlchain/dify-sandbox/internal/static"
+	"github.com/mlchain/mlchain-sandbox/internal/middleware"
+	"github.com/mlchain/mlchain-sandbox/internal/static"
 )
 
 func Setup(eng *gin.Engine) {
@@ -11,8 +11,8 @@ func Setup(eng *gin.Engine) {
 
 	eng.POST(
 		"/v1/sandbox/run",
-		middleware.MaxRequest(static.GetDifySandboxGlobalConfigurations().MaxRequests),
-		middleware.MaxWorker(static.GetDifySandboxGlobalConfigurations().MaxWorkers),
+		middleware.MaxRequest(static.GetMlchainSandboxGlobalConfigurations().MaxRequests),
+		middleware.MaxWorker(static.GetMlchainSandboxGlobalConfigurations().MaxWorkers),
 		RunSandboxController,
 	)
 	eng.GET(

@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mlchain/dify-sandbox/internal/static"
-	"github.com/mlchain/dify-sandbox/internal/utils/log"
+	"github.com/mlchain/mlchain-sandbox/internal/static"
+	"github.com/mlchain/mlchain-sandbox/internal/utils/log"
 )
 
 func init() {

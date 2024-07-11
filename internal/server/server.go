@@ -5,10 +5,10 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mlchain/dify-sandbox/internal/controller"
-	"github.com/mlchain/dify-sandbox/internal/core/runner/python"
-	"github.com/mlchain/dify-sandbox/internal/static"
-	"github.com/mlchain/dify-sandbox/internal/utils/log"
+	"github.com/mlchain/mlchain-sandbox/internal/controller"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner/python"
+	"github.com/mlchain/mlchain-sandbox/internal/static"
+	"github.com/mlchain/mlchain-sandbox/internal/utils/log"
 )
 
 func initConfig() {
@@ -27,7 +27,7 @@ func initConfig() {
 }
 
 func initServer() {
-	config := static.GetDifySandboxGlobalConfigurations()
+	config := static.GetMlchainSandboxGlobalConfigurations()
 	if !config.App.Debug {
 		gin.SetMode(gin.ReleaseMode)
 	}

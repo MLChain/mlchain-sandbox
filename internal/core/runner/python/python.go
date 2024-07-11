@@ -13,9 +13,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/mlchain/dify-sandbox/internal/core/runner"
-	"github.com/mlchain/dify-sandbox/internal/core/runner/types"
-	"github.com/mlchain/dify-sandbox/internal/static"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner/types"
+	"github.com/mlchain/mlchain-sandbox/internal/static"
 )
 
 type PythonRunner struct {
@@ -38,7 +38,7 @@ func (p *PythonRunner) Run(
 	preload string,
 	options *types.RunnerOptions,
 ) (chan []byte, chan []byte, chan bool, error) {
-	configuration := static.GetDifySandboxGlobalConfigurations()
+	configuration := static.GetMlchainSandboxGlobalConfigurations()
 
 	// initialize the environment
 	untrusted_code_path, key, err := p.InitializeEnvironment(code, preload, options)

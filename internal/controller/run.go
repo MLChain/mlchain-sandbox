@@ -2,9 +2,9 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	runner_types "github.com/mlchain/dify-sandbox/internal/core/runner/types"
-	"github.com/mlchain/dify-sandbox/internal/service"
-	"github.com/mlchain/dify-sandbox/internal/types"
+	runner_types "github.com/mlchain/mlchain-sandbox/internal/core/runner/types"
+	"github.com/mlchain/mlchain-sandbox/internal/service"
+	"github.com/mlchain/mlchain-sandbox/internal/types"
 )
 
 func RunSandboxController(c *gin.Context) {

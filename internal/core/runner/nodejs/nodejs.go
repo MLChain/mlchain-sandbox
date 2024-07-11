@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/mlchain/dify-sandbox/internal/core/runner"
-	"github.com/mlchain/dify-sandbox/internal/core/runner/types"
-	"github.com/mlchain/dify-sandbox/internal/static"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner/types"
+	"github.com/mlchain/mlchain-sandbox/internal/static"
 )
 
 type NodeJsRunner struct {
@@ -58,7 +58,7 @@ func (p *NodeJsRunner) Run(
 
 		// create a new process
 		cmd := exec.Command(
-			static.GetDifySandboxGlobalConfigurations().NodejsPath,
+			static.GetMlchainSandboxGlobalConfigurations().NodejsPath,
 			script_path,
 			strconv.Itoa(static.SANDBOX_USER_UID),
 			strconv.Itoa(static.SANDBOX_GROUP_ID),

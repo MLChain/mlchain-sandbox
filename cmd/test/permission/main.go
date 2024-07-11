@@ -3,7 +3,7 @@ package main
 import (
 	"os/exec"
 
-	"github.com/mlchain/dify-sandbox/internal/core/lib/python"
+	"github.com/mlchain/mlchain-sandbox/internal/core/lib/python"
 )
 
 func main() {

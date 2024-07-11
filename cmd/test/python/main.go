@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/mlchain/dify-sandbox/internal/core/runner/python"
-	"github.com/mlchain/dify-sandbox/internal/core/runner/types"
-	"github.com/mlchain/dify-sandbox/internal/service"
-	"github.com/mlchain/dify-sandbox/internal/static"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner/python"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner/types"
+	"github.com/mlchain/mlchain-sandbox/internal/service"
+	"github.com/mlchain/mlchain-sandbox/internal/static"
 )
 
 func main() {

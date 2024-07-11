@@ -1,6 +1,6 @@
 package types
 
-type DifySandboxGlobalConfigurations struct {
+type MlchainSandboxGlobalConfigurations struct {
 	App struct {
 		Port  int    `yaml:"port"`
 		Debug bool   `yaml:"debug"`

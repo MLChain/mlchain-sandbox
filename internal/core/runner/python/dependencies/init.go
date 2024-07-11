@@ -3,7 +3,7 @@ package dependencies
 import (
 	"sync"
 
-	"github.com/mlchain/dify-sandbox/internal/core/runner/types"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner/types"
 )
 
 var preload_script_map = map[string]string{}

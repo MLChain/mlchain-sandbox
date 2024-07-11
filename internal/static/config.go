@@ -5,15 +5,15 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mlchain/dify-sandbox/internal/types"
-	"github.com/mlchain/dify-sandbox/internal/utils/log"
+	"github.com/mlchain/mlchain-sandbox/internal/types"
+	"github.com/mlchain/mlchain-sandbox/internal/utils/log"
 	"gopkg.in/yaml.v3"
 )
 
-var difySandboxGlobalConfigurations types.DifySandboxGlobalConfigurations
+var mlchainSandboxGlobalConfigurations types.MlchainSandboxGlobalConfigurations
 
 func InitConfig(path string) error {
-	difySandboxGlobalConfigurations = types.DifySandboxGlobalConfigurations{}
+	mlchainSandboxGlobalConfigurations = types.MlchainSandboxGlobalConfigurations{}
 
 	// read config file
 	configFile, err := os.Open(path)
@@ -25,108 +25,108 @@ func InitConfig(path string) error {
 
 	// parse config file
 	decoder := yaml.NewDecoder(configFile)
-	err = decoder.Decode(&difySandboxGlobalConfigurations)
+	err = decoder.Decode(&mlchainSandboxGlobalConfigurations)
 	if err != nil {
 		return err
 	}
 
 	debug, err := strconv.ParseBool(os.Getenv("DEBUG"))
 	if err == nil {
-		difySandboxGlobalConfigurations.App.Debug = debug
+		mlchainSandboxGlobalConfigurations.App.Debug = debug
 	}
 
 	max_workers := os.Getenv("MAX_WORKERS")
 	if max_workers != "" {
-		difySandboxGlobalConfigurations.MaxWorkers, _ = strconv.Atoi(max_workers)
+		mlchainSandboxGlobalConfigurations.MaxWorkers, _ = strconv.Atoi(max_workers)
 	}
 
 	max_requests := os.Getenv("MAX_REQUESTS")
 	if max_requests != "" {
-		difySandboxGlobalConfigurations.MaxRequests, _ = strconv.Atoi(max_requests)
+		mlchainSandboxGlobalConfigurations.MaxRequests, _ = strconv.Atoi(max_requests)
 	}
 
 	port := os.Getenv("SANDBOX_PORT")
 	if port != "" {
-		difySandboxGlobalConfigurations.App.Port, _ = strconv.Atoi(port)
+		mlchainSandboxGlobalConfigurations.App.Port, _ = strconv.Atoi(port)
 	}
 
 	timeout := os.Getenv("WORKER_TIMEOUT")
 	if timeout != "" {
-		difySandboxGlobalConfigurations.WorkerTimeout, _ = strconv.Atoi(timeout)
+		mlchainSandboxGlobalConfigurations.WorkerTimeout, _ = strconv.Atoi(timeout)
 	}
 
 	api_key := os.Getenv("API_KEY")
 	if api_key != "" {
-		difySandboxGlobalConfigurations.App.Key = api_key
+		mlchainSandboxGlobalConfigurations.App.Key = api_key
 	}
 
 	python_path := os.Getenv("PYTHON_PATH")
 	if python_path != "" {
-		difySandboxGlobalConfigurations.PythonPath = python_path
+		mlchainSandboxGlobalConfigurations.PythonPath = python_path
 	}
 
-	if difySandboxGlobalConfigurations.PythonPath == "" {
-		difySandboxGlobalConfigurations.PythonPath = "/usr/local/bin/python3"
+	if mlchainSandboxGlobalConfigurations.PythonPath == "" {
+		mlchainSandboxGlobalConfigurations.PythonPath = "/usr/local/bin/python3"
 	}
 
 	python_lib_path := os.Getenv("PYTHON_LIB_PATH")
 	if python_lib_path != "" {
-		difySandboxGlobalConfigurations.PythonLibPaths = strings.Split(python_lib_path, ",")
+		mlchainSandboxGlobalConfigurations.PythonLibPaths = strings.Split(python_lib_path, ",")
 	}
 
-	if len(difySandboxGlobalConfigurations.PythonLibPaths) == 0 {
-		difySandboxGlobalConfigurations.PythonLibPaths = DEFAULT_PYTHON_LIB_REQUIREMENTS
+	if len(mlchainSandboxGlobalConfigurations.PythonLibPaths) == 0 {
+		mlchainSandboxGlobalConfigurations.PythonLibPaths = DEFAULT_PYTHON_LIB_REQUIREMENTS
 	}
 
 	nodejs_path := os.Getenv("NODEJS_PATH")
 	if nodejs_path != "" {
-		difySandboxGlobalConfigurations.NodejsPath = nodejs_path
+		mlchainSandboxGlobalConfigurations.NodejsPath = nodejs_path
 	}
 
-	if difySandboxGlobalConfigurations.NodejsPath == "" {
-		difySandboxGlobalConfigurations.NodejsPath = "/usr/local/bin/node"
+	if mlchainSandboxGlobalConfigurations.NodejsPath == "" {
+		mlchainSandboxGlobalConfigurations.NodejsPath = "/usr/local/bin/node"
 	}
 
 	enable_network := os.Getenv("ENABLE_NETWORK")
 	if enable_network != "" {
-		difySandboxGlobalConfigurations.EnableNetwork, _ = strconv.ParseBool(enable_network)
+		mlchainSandboxGlobalConfigurations.EnableNetwork, _ = strconv.ParseBool(enable_network)
 	}
 
-	if difySandboxGlobalConfigurations.EnableNetwork {
+	if mlchainSandboxGlobalConfigurations.EnableNetwork {
 		log.Info("network has been enabled")
 		socks5_proxy := os.Getenv("SOCKS5_PROXY")
 		if socks5_proxy != "" {
-			difySandboxGlobalConfigurations.Proxy.Socks5 = socks5_proxy
+			mlchainSandboxGlobalConfigurations.Proxy.Socks5 = socks5_proxy
 		}
 
-		if difySandboxGlobalConfigurations.Proxy.Socks5 != "" {
-			log.Info("using socks5 proxy: %s", difySandboxGlobalConfigurations.Proxy.Socks5)
+		if mlchainSandboxGlobalConfigurations.Proxy.Socks5 != "" {
+			log.Info("using socks5 proxy: %s", mlchainSandboxGlobalConfigurations.Proxy.Socks5)
 		}
 
 		https_proxy := os.Getenv("HTTPS_PROXY")
 		if https_proxy != "" {
-			difySandboxGlobalConfigurations.Proxy.Https = https_proxy
+			mlchainSandboxGlobalConfigurations.Proxy.Https = https_proxy
 		}
 
-		if difySandboxGlobalConfigurations.Proxy.Https != "" {
-			log.Info("using https proxy: %s", difySandboxGlobalConfigurations.Proxy.Https)
+		if mlchainSandboxGlobalConfigurations.Proxy.Https != "" {
+			log.Info("using https proxy: %s", mlchainSandboxGlobalConfigurations.Proxy.Https)
 		}
 
 		http_proxy := os.Getenv("HTTP_PROXY")
 		if http_proxy != "" {
-			difySandboxGlobalConfigurations.Proxy.Http = http_proxy
+			mlchainSandboxGlobalConfigurations.Proxy.Http = http_proxy
 		}
 
-		if difySandboxGlobalConfigurations.Proxy.Http != "" {
-			log.Info("using http proxy: %s", difySandboxGlobalConfigurations.Proxy.Http)
+		if mlchainSandboxGlobalConfigurations.Proxy.Http != "" {
+			log.Info("using http proxy: %s", mlchainSandboxGlobalConfigurations.Proxy.Http)
 		}
 	}
 	return nil
 }
 
 // avoid global modification, use value copy instead
-func GetDifySandboxGlobalConfigurations() types.DifySandboxGlobalConfigurations {
-	return difySandboxGlobalConfigurations
+func GetMlchainSandboxGlobalConfigurations() types.MlchainSandboxGlobalConfigurations {
+	return mlchainSandboxGlobalConfigurations
 }
 
 type RunnerDependencies struct {

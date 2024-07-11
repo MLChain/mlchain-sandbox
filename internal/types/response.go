@@ -1,6 +1,6 @@
 package types
 
-type DifySandboxResponse struct {
+type MlchainSandboxResponse struct {
 	// Code is the code of the response
 	Code int `json:"code"`
 	// Message is the message of the response
@@ -9,19 +9,19 @@ type DifySandboxResponse struct {
 	Data interface{} `json:"data"`
 }
 
-func SuccessResponse(data interface{}) *DifySandboxResponse {
-	return &DifySandboxResponse{
+func SuccessResponse(data interface{}) *MlchainSandboxResponse {
+	return &MlchainSandboxResponse{
 		Code:    0,
 		Message: "success",
 		Data:    data,
 	}
 }
 
-func ErrorResponse(code int, message string) *DifySandboxResponse {
+func ErrorResponse(code int, message string) *MlchainSandboxResponse {
 	if code >= 0 {
 		code = -1
 	}
-	return &DifySandboxResponse{
+	return &MlchainSandboxResponse{
 		Code:    code,
 		Message: message,
 	}

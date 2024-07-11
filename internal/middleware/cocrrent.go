@@ -5,8 +5,8 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mlchain/dify-sandbox/internal/types"
-	"github.com/mlchain/dify-sandbox/internal/utils/log"
+	"github.com/mlchain/mlchain-sandbox/internal/types"
+	"github.com/mlchain/mlchain-sandbox/internal/utils/log"
 )
 
 func MaxWorker(max int) gin.HandlerFunc {

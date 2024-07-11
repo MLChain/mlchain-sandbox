@@ -1,9 +1,9 @@
 package integrationtests_test
 
 import (
-	"github.com/mlchain/dify-sandbox/internal/core/runner/python"
-	"github.com/mlchain/dify-sandbox/internal/static"
-	"github.com/mlchain/dify-sandbox/internal/utils/log"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner/python"
+	"github.com/mlchain/mlchain-sandbox/internal/static"
+	"github.com/mlchain/mlchain-sandbox/internal/utils/log"
 )
 
 func init() {

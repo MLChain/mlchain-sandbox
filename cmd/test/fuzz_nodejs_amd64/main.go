@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/mlchain/dify-sandbox/internal/static/nodejs_syscall"
+	"github.com/mlchain/mlchain-sandbox/internal/static/nodejs_syscall"
 )
 
 const (

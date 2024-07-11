@@ -3,19 +3,19 @@ package service
 import (
 	"time"
 
-	"github.com/mlchain/dify-sandbox/internal/core/runner/nodejs"
-	runner_types "github.com/mlchain/dify-sandbox/internal/core/runner/types"
-	"github.com/mlchain/dify-sandbox/internal/static"
-	"github.com/mlchain/dify-sandbox/internal/types"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner/nodejs"
+	runner_types "github.com/mlchain/mlchain-sandbox/internal/core/runner/types"
+	"github.com/mlchain/mlchain-sandbox/internal/static"
+	"github.com/mlchain/mlchain-sandbox/internal/types"
 )
 
-func RunNodeJsCode(code string, preload string, options *runner_types.RunnerOptions) *types.DifySandboxResponse {
+func RunNodeJsCode(code string, preload string, options *runner_types.RunnerOptions) *types.MlchainSandboxResponse {
 	if err := checkOptions(options); err != nil {
 		return types.ErrorResponse(-400, err.Error())
 	}
 
 	timeout := time.Duration(
-		static.GetDifySandboxGlobalConfigurations().WorkerTimeout * int(time.Second),
+		static.GetMlchainSandboxGlobalConfigurations().WorkerTimeout * int(time.Second),
 	)
 
 	runner := nodejs.NodeJsRunner{}

@@ -9,10 +9,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/mlchain/dify-sandbox/internal/core/runner"
-	python_dependencies "github.com/mlchain/dify-sandbox/internal/core/runner/python/dependencies"
-	"github.com/mlchain/dify-sandbox/internal/core/runner/types"
-	"github.com/mlchain/dify-sandbox/internal/utils/log"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner"
+	python_dependencies "github.com/mlchain/mlchain-sandbox/internal/core/runner/python/dependencies"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner/types"
+	"github.com/mlchain/mlchain-sandbox/internal/utils/log"
 )
 
 //go:embed python.so

@@ -1,6 +1,6 @@
 package main
 
-import "github.com/mlchain/dify-sandbox/internal/server"
+import "github.com/mlchain/mlchain-sandbox/internal/server"
 
 func main() {
 	server.Run()

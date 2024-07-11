@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mlchain/dify-sandbox/internal/utils/log"
+	"github.com/mlchain/mlchain-sandbox/internal/utils/log"
 )
 
 type OutputCaptureRunner struct {

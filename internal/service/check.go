@@ -3,8 +3,8 @@ package service
 import (
 	"errors"
 
-	"github.com/mlchain/dify-sandbox/internal/core/runner/types"
-	"github.com/mlchain/dify-sandbox/internal/static"
+	"github.com/mlchain/mlchain-sandbox/internal/core/runner/types"
+	"github.com/mlchain/mlchain-sandbox/internal/static"
 )
 
 var (
@@ -12,7 +12,7 @@ var (
 )
 
 func checkOptions(options *types.RunnerOptions) error {
-	configuration := static.GetDifySandboxGlobalConfigurations()
+	configuration := static.GetMlchainSandboxGlobalConfigurations()
 
 	if options.EnableNetwork && !configuration.EnableNetwork {
 		return ErrNetworkDisabled

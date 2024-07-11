@@ -6,7 +6,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/mlchain/dify-sandbox/internal/utils/log"
+	"github.com/mlchain/mlchain-sandbox/internal/utils/log"
 )
 
 const (

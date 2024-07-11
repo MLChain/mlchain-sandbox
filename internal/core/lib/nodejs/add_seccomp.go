@@ -6,8 +6,8 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/mlchain/dify-sandbox/internal/core/lib"
-	"github.com/mlchain/dify-sandbox/internal/static/nodejs_syscall"
+	"github.com/mlchain/mlchain-sandbox/internal/core/lib"
+	"github.com/mlchain/mlchain-sandbox/internal/static/nodejs_syscall"
 )
 
 //var allow_syscalls = []int{}

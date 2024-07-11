@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/mlchain/dify-sandbox/internal/core/lib/python"
+	"github.com/mlchain/mlchain-sandbox/internal/core/lib/python"
 )
 import "C"
 
-//export DifySeccomp
-func DifySeccomp(uid int, gid int, enable_network bool) {
+//export MlchainSeccomp
+func MlchainSeccomp(uid int, gid int, enable_network bool) {
 	python.InitSeccomp(uid, gid, enable_network)
 }
 
