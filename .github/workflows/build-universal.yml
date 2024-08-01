@@ -21,7 +21,7 @@ jobs:
   build-arm64:
     uses: ./.github/workflows/build.yml
     with:
-      runner: arm64_runner
+      runner: actuated-aarch64
       arch: arm64
       arch_label: ARM64
     secrets:
