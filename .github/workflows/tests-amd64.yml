@@ -1,6 +1,7 @@
 name: Run GoTest
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
