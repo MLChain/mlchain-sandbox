@@ -15,7 +15,7 @@ concurrency:
 jobs:
   test:
     name: Test ARM64
-    runs-on: arm64_runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
