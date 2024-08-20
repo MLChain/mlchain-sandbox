@@ -17,3 +17,12 @@ MlchainSandbox currently only supports Linux, as it's designed for docker contai
 4. Run ./main to start the server.
 
 If you want to debug the server, firstly use build script to build the sandbox library binaries, then debug as you want with your IDE.
+
+
+## FAQ
+
+Refer to the [FAQ document](FAQ.md)
+
+
+## Workflow
+![workflow](workflow.png)

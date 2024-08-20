@@ -1,7 +1,6 @@
 name: Build And Push Universal
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
@@ -22,7 +21,7 @@ jobs:
   build-arm64:
     uses: ./.github/workflows/build.yml
     with:
-      runner: ubuntu-latest
+      runner: arm64_runner
       arch: arm64
       arch_label: ARM64
     secrets:

@@ -11,7 +11,7 @@ on:
 jobs:
   test:
     name: Test ARM64
-    runs-on: ubuntu-latest
+    runs-on: arm64_runner
 
     steps:
       - name: Checkout code
