@@ -63,6 +63,16 @@ func ListPython3Dependencies() *types.MlchainSandboxResponse {
 	})
 }
 
+type RefreshDependenciesResponse struct {
+	Dependencies []runner_types.Dependency `json:"dependencies"`
+}
+
+func RefreshPython3Dependencies() *types.MlchainSandboxResponse {
+	return types.SuccessResponse(&RefreshDependenciesResponse{
+		Dependencies: python.RefreshDependencies(),
+	})
+}
+
 type UpdateDependenciesResponse struct{}
 
 func UpdateDependencies() *types.MlchainSandboxResponse {
