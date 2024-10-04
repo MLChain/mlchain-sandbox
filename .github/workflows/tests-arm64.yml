@@ -8,10 +8,6 @@ on:
     branches:
       - main
 
-concurrency:
-  group: test-arm64-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
 jobs:
   test:
     name: Test ARM64
