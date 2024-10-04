@@ -23,9 +23,9 @@ type OutputCaptureRunner struct {
 
 func NewOutputCaptureRunner() *OutputCaptureRunner {
 	return &OutputCaptureRunner{
-		stdout: make(chan []byte, 42),
-		stderr: make(chan []byte, 42),
-		done:   make(chan bool, 1),
+		stdout: make(chan []byte),
+		stderr: make(chan []byte),
+		done:   make(chan bool),
 	}
 }
 
@@ -56,16 +56,14 @@ func (s *OutputCaptureRunner) CaptureOutput(cmd *exec.Cmd) error {
 		timeout = 5 * time.Second
 	}
 
-	timer := time.NewTimer(timeout)
-	go func() {
-		<-timer.C
+	timer := time.AfterFunc(timeout, func() {
 		if cmd != nil && cmd.Process != nil {
 			// write the error
 			s.WriteError([]byte("error: timeout\n"))
 			// send a signal to the process
 			cmd.Process.Kill()
 		}
-	}()
+	})
 
 	// create a pipe for the stdout
 	stdout_reader, err := cmd.StdoutPipe()
@@ -91,6 +89,8 @@ func (s *OutputCaptureRunner) CaptureOutput(cmd *exec.Cmd) error {
 	wg := sync.WaitGroup{}
 	wg.Add(2)
 
+	written := 0
+
 	// read the output
 	go func() {
 		defer wg.Done()
@@ -106,6 +106,7 @@ func (s *OutputCaptureRunner) CaptureOutput(cmd *exec.Cmd) error {
 					break
 				}
 			}
+			written += n
 			s.WriteOutput(buf[:n])
 		}
 	}()
@@ -131,6 +132,10 @@ func (s *OutputCaptureRunner) CaptureOutput(cmd *exec.Cmd) error {
 
 	// wait for the process to finish
 	go func() {
+		// wait for the stdout and stderr to finish
+		wg.Wait()
+
+		// wait for the process to finish
 		status, err := cmd.Process.Wait()
 		if err != nil {
 			log.Error("process finished with status: %v", status.String())
@@ -143,11 +148,6 @@ func (s *OutputCaptureRunner) CaptureOutput(cmd *exec.Cmd) error {
 				s.WriteError([]byte(fmt.Sprintf("error: %v\n", exit_string)))
 			}
 		}
-
-		// wait for the stdout and stderr to finish
-		wg.Wait()
-		stderr_reader.Close()
-		stdout_reader.Close()
 
 		if s.after_exit_hook != nil {
 			s.after_exit_hook()

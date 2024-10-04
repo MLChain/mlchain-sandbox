@@ -78,6 +78,10 @@ func InitConfig(path string) error {
 		mlchainSandboxGlobalConfigurations.PythonLibPaths = DEFAULT_PYTHON_LIB_REQUIREMENTS
 	}
 
+	python_pip_mirror_url := os.Getenv("PIP_MIRROR_URL")
+	if python_pip_mirror_url != "" {
+		mlchainSandboxGlobalConfigurations.PythonPipMirrorURL = python_pip_mirror_url
+	}
 	nodejs_path := os.Getenv("NODEJS_PATH")
 	if nodejs_path != "" {
 		mlchainSandboxGlobalConfigurations.NodejsPath = nodejs_path
@@ -90,6 +94,19 @@ func InitConfig(path string) error {
 	enable_network := os.Getenv("ENABLE_NETWORK")
 	if enable_network != "" {
 		mlchainSandboxGlobalConfigurations.EnableNetwork, _ = strconv.ParseBool(enable_network)
+	}
+
+	allowed_syscalls := os.Getenv("ALLOWED_SYSCALLS")
+	if allowed_syscalls != "" {
+		strs := strings.Split(allowed_syscalls, ",")
+		ary := make([]int, len(strs))
+		for i := range ary {
+			ary[i], err = strconv.Atoi(strs[i])
+			if err != nil {
+				return err
+			}
+		}
+		mlchainSandboxGlobalConfigurations.AllowedSyscalls = ary
 	}
 
 	if mlchainSandboxGlobalConfigurations.EnableNetwork {

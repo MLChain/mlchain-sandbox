@@ -33,6 +33,11 @@ func initServer() {
 	}
 
 	r := gin.Default()
+	r.Use(gin.Recovery())
+	if gin.Mode() == gin.DebugMode {
+		r.Use(gin.Logger())
+	}
+
 	controller.Setup(r)
 
 	r.Run(fmt.Sprintf(":%d", config.App.Port))
@@ -40,8 +45,8 @@ func initServer() {
 
 func initDependencies() {
 	log.Info("installing python dependencies...")
-	dependenices := static.GetRunnerDependencies()
-	err := python.InstallDependencies(dependenices.PythonRequirements)
+	dependencies := static.GetRunnerDependencies()
+	err := python.InstallDependencies(dependencies.PythonRequirements)
 	if err != nil {
 		log.Panic("failed to install python dependencies: %v", err)
 	}
@@ -58,18 +63,32 @@ func initDependencies() {
 	go func() {
 		ticker := time.NewTicker(30 * time.Minute)
 		for range ticker.C {
-			log.Info("updating python dependencies...")
-			err := python.InstallDependencies(dependenices.PythonRequirements)
-			if err != nil {
-				log.Error("failed to update python dependencies: %v", err)
+			if err:=updatePythonDependencies(dependencies);err!=nil{
+				log.Error("Failed to update Python dependencies: %v", err)
 			}
-			log.Info("python dependencies updated")
 		}
 	}()
 }
 
+func updatePythonDependencies(dependencies static.RunnerDependencies) error {
+	log.Info("Updating Python dependencies...")
+	if err := python.InstallDependencies(dependencies.PythonRequirements); err != nil {
+		log.Error("Failed to install Python dependencies: %v", err)
+		return err
+	}
+	if err := python.PreparePythonDependenciesEnv(); err != nil {
+		log.Error("Failed to prepare Python dependencies environment: %v", err)
+		return err
+	}
+	log.Info("Python dependencies updated successfully.")
+	return nil
+}
+
 func Run() {
+	// init config
 	initConfig()
-	initDependencies()
+	// init dependencies, it will cost some times
+	go initDependencies()
+
 	initServer()
 }

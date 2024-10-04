@@ -1,6 +1,6 @@
-# Mlchain-Sandbox
+# MLChain-Sandbox
 ## Introduction
-Mlchain-Sandbox offers a simple way to run untrusted code in a secure environment. It is designed to be used in a multi-tenant environment, where multiple users can submit code to be executed. The code is executed in a sandboxed environment, which restricts the resources and system calls that the code can access.
+MLChain-Sandbox offers a simple way to run untrusted code in a secure environment. It is designed to be used in a multi-tenant environment, where multiple users can submit code to be executed. The code is executed in a sandboxed environment, which restricts the resources and system calls that the code can access.
 
 ## Use
 ### Requirements
@@ -17,3 +17,12 @@ MlchainSandbox currently only supports Linux, as it's designed for docker contai
 4. Run ./main to start the server.
 
 If you want to debug the server, firstly use build script to build the sandbox library binaries, then debug as you want with your IDE.
+
+
+## FAQ
+
+Refer to the [FAQ document](FAQ.md)
+
+
+## Workflow
+![workflow](workflow.png)

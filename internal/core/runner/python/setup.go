@@ -9,6 +9,8 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/mlchain/mlchain-sandbox/internal/static"
+
 	"github.com/mlchain/mlchain-sandbox/internal/core/runner"
 	python_dependencies "github.com/mlchain/mlchain-sandbox/internal/core/runner/python/dependencies"
 	"github.com/mlchain/mlchain-sandbox/internal/core/runner/types"
@@ -24,23 +26,40 @@ const (
 )
 
 func init() {
-	releaseLibBinary()
+	releaseLibBinary(true)
 }
 
-func releaseLibBinary() {
+func releaseLibBinary(force_remove_old_lib bool) {
 	log.Info("initializing python runner environment...")
-	os.RemoveAll(LIB_PATH)
-	os.Remove(LIB_PATH)
+	// remove the old lib
+	if _, err := os.Stat(path.Join(LIB_PATH, LIB_NAME)); err == nil {
+		if force_remove_old_lib {
+			err := os.Remove(path.Join(LIB_PATH, LIB_NAME))
+			if err != nil {
+				log.Panic(fmt.Sprintf("failed to remove %s", path.Join(LIB_PATH, LIB_NAME)))
+			}
 
-	err := os.MkdirAll(LIB_PATH, 0755)
-	if err != nil {
-		log.Panic(fmt.Sprintf("failed to create %s", LIB_PATH))
+			// write the new lib
+			err = os.MkdirAll(LIB_PATH, 0755)
+			if err != nil {
+				log.Panic(fmt.Sprintf("failed to create %s", LIB_PATH))
+			}
+			err = os.WriteFile(path.Join(LIB_PATH, LIB_NAME), python_lib, 0755)
+			if err != nil {
+				log.Panic(fmt.Sprintf("failed to write %s", path.Join(LIB_PATH, LIB_NAME)))
+			}
+		}
+	} else {
+		err = os.MkdirAll(LIB_PATH, 0755)
+		if err != nil {
+			log.Panic(fmt.Sprintf("failed to create %s", LIB_PATH))
+		}
+		err = os.WriteFile(path.Join(LIB_PATH, LIB_NAME), python_lib, 0755)
+		if err != nil {
+			log.Panic(fmt.Sprintf("failed to write %s", path.Join(LIB_PATH, LIB_NAME)))
+		}
+		log.Info("python runner environment initialized")
 	}
-	err = os.WriteFile(path.Join(LIB_PATH, LIB_NAME), python_lib, 0755)
-	if err != nil {
-		log.Panic(fmt.Sprintf("failed to write %s", path.Join(LIB_PATH, LIB_NAME)))
-	}
-	log.Info("python runner environment initialized")
 }
 
 func checkLibAvaliable() bool {
@@ -81,7 +100,6 @@ func InstallDependencies(requirements string) error {
 
 	runner := runner.TempDirRunner{}
 	return runner.WithTempDir("/", []string{}, func(root_path string) error {
-		defer os.Remove(root_path)
 		defer os.RemoveAll(root_path)
 		// create a requirements file
 		err := os.WriteFile(path.Join(root_path, "requirements.txt"), []byte(requirements), 0644)
@@ -91,18 +109,26 @@ func InstallDependencies(requirements string) error {
 		}
 
 		// install dependencies
-		cmd := exec.Command("pip3", "install", "-r", "requirements.txt")
+		pipMirrorURL := static.GetMlchainSandboxGlobalConfigurations().PythonPipMirrorURL
 
+		// Create the base command
+		args := []string{"install", "-r", "requirements.txt"}
+		if pipMirrorURL != "" {
+			// If a mirror URL is provided, include it in the command arguments
+			args = append(args, "-i", pipMirrorURL)
+		}
+		cmd := exec.Command("pip3", args...)
 		reader, err := cmd.StdoutPipe()
 		if err != nil {
-			log.Panic("failed to get stdout pipe of pip3")
+			log.Error("failed to get stdout pipe of pip3")
+			return err
 		}
 		defer reader.Close()
 
 		err = cmd.Start()
 		if err != nil {
 			log.Error("failed to start pip3")
-			return nil
+			return err
 		}
 
 		for {
@@ -114,11 +140,11 @@ func InstallDependencies(requirements string) error {
 			log.Info(string(buf[:n]))
 		}
 
-		status := cmd.Wait()
+		err = cmd.Wait()
 
-		if status != nil {
-			log.Error("failed to install dependencies")
-			return nil
+		if err != nil {
+			log.Error("failed to wait for the command to complete")
+			return err
 		}
 
 		// split the requirements
@@ -126,13 +152,13 @@ func InstallDependencies(requirements string) error {
 		requirements = strings.ReplaceAll(requirements, "\r", "\n")
 		lines := strings.Split(requirements, "\n")
 		for _, line := range lines {
-			package_name, version := ExtractOnelineDepency(line)
-			if package_name == "" {
+			packageName, version := ExtractOnelineDepency(line)
+			if packageName == "" {
 				continue
 			}
 
-			python_dependencies.SetupDependency(package_name, version)
-			log.Info("Python dependency installed: %s %s", package_name, version)
+			python_dependencies.SetupDependency(packageName, version)
+			log.Info("Python dependency installed: %s %s", packageName, version)
 		}
 
 		return nil
@@ -140,5 +166,17 @@ func InstallDependencies(requirements string) error {
 }
 
 func ListDependencies() []types.Dependency {
+	return python_dependencies.ListDependencies()
+}
+
+func RefreshDependencies() []types.Dependency {
+	log.Info("updating python dependencies...")
+	dependencies := static.GetRunnerDependencies()
+	err := InstallDependencies(dependencies.PythonRequirements)
+	if err != nil {
+		log.Error("failed to install python dependencies: %v", err)
+		return nil
+	}
+	log.Info("python dependencies updated")
 	return python_dependencies.ListDependencies()
 }
