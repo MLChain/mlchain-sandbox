@@ -56,5 +56,3 @@ jobs:
 
       - name: Run Intgeration tests
         run: sudo go test -timeout 120s -v ./tests/integration_tests/...
-        env:
-          PYTHON_PATH: /usr/bin/python3.10
