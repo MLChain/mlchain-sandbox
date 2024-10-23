@@ -14,6 +14,10 @@ func RunNodeJsCode(code string, preload string, options *runner_types.RunnerOpti
 		return types.ErrorResponse(-400, err.Error())
 	}
 
+	if !static.GetMlchainSandboxGlobalConfigurations().EnablePreload {
+		preload = ""
+	}
+
 	timeout := time.Duration(
 		static.GetMlchainSandboxGlobalConfigurations().WorkerTimeout * int(time.Second),
 	)

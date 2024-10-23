@@ -1,6 +1,6 @@
-# MLChain-Sandbox
+# Mlchain-Sandbox
 ## Introduction
-MLChain-Sandbox offers a simple way to run untrusted code in a secure environment. It is designed to be used in a multi-tenant environment, where multiple users can submit code to be executed. The code is executed in a sandboxed environment, which restricts the resources and system calls that the code can access.
+Mlchain-Sandbox offers a simple way to run untrusted code in a secure environment. It is designed to be used in a multi-tenant environment, where multiple users can submit code to be executed. The code is executed in a sandboxed environment, which restricts the resources and system calls that the code can access.
 
 ## Use
 ### Requirements

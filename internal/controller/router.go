@@ -1,10 +1,11 @@
 package controller
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/mlchain/mlchain-sandbox/internal/middleware"
 	"github.com/mlchain/mlchain-sandbox/internal/static"
-	"net/http"
 )
 
 func Setup(Router *gin.Engine) {
