@@ -20,9 +20,9 @@ func RunPython3Code(code string, preload string, options *runner_types.RunnerOpt
 	}
 
 	if !static.GetMlchainSandboxGlobalConfigurations().EnablePreload {
-		preload = ""
+	    preload = ""
 	}
-
+	
 	timeout := time.Duration(
 		static.GetMlchainSandboxGlobalConfigurations().WorkerTimeout * int(time.Second),
 	)
