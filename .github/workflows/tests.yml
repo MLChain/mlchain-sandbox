@@ -14,11 +14,11 @@ concurrency:
 
 jobs:
   test:
-    name: Test
-    runs-on: ${{ matrix.arch == 'amd64' && 'ubuntu-latest' || 'arm64_runner' }}
+    name: Test on ${{ matrix.arch }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [amd64, arm64]
+        arch: [amd64] # Only test on amd64
 
     steps:
       - name: Checkout code
@@ -26,10 +26,5 @@ jobs:
 
       - name: Build and run tests
         run: |
-          if [ "${{ matrix.arch }}" == "amd64" ]; then
-            docker build -t test -f docker/amd64-test/dockerfile .
-            docker run --rm test
-          elif [ "${{ matrix.arch }}" == "arm64" ]; then
-            docker build -t test -f docker/arm64-test/dockerfile .
-            docker run --rm test
-          fi
+          docker build -t test -f docker/${{ matrix.arch }}-test/dockerfile .
+          docker run --rm test

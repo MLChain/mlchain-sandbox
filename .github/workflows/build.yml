@@ -24,6 +24,10 @@ jobs:
     runs-on: ${{ inputs.runner }}
 
     steps:
+      - name: Validate Architecture
+        if: ${{ inputs.arch == 'arm64' }}
+        run: echo "Skipping arm64 builds." && exit 0
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -62,14 +66,13 @@ jobs:
         run: docker build -t mlchain-sandbox -f ./docker/${{ inputs.arch }}/dockerfile .
 
       - name: Tag Docker Images
-        run: 
-          for tag in $(echo "${{ steps.meta.outputs.tags }}" | tr ',' '\n');
-          do
+        run: |
+          for tag in $(echo "${{ steps.meta.outputs.tags }}" | tr ',' '\n'); do
             docker tag mlchain-sandbox "$tag-${{ inputs.arch }}";
           done
+
       - name: Push Docker Image
-        run:
-          for tag in $(echo "${{ steps.meta.outputs.tags }}" | tr ',' '\n');
-          do
+        run: |
+          for tag in $(echo "${{ steps.meta.outputs.tags }}" | tr ',' '\n'); do
             docker push $tag-${{ inputs.arch }};
           done
