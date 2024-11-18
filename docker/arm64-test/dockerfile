@@ -9,7 +9,7 @@ WORKDIR /app
 # install dependencies and build binary
 RUN apt-get update && apt-get install -y pkg-config gcc libseccomp-dev && go mod tidy && bash ./build/build_arm64.sh
 
-FROM python:3.10-slim-bookworm as tester
+FROM python:3.10-slim-bookworm AS tester
 
 # if you located in China, you can use aliyun mirror to speed up
 # && echo "deb http://mirrors.aliyun.com/debian testing main" > /etc/apt/sources.list
